@@ -99,6 +99,8 @@ jobs:
           npm --version
           java -version
 
+      # Apache Cordova 公式のテスト構成をそのまま使っている。
+      # 最新の cordova / paramedic で動作確認することが目的なので固定しない。
       - name: Run npm install  # zizmor: ignore[adhoc-packages]
         run: |
           export PATH="/usr/local/lib/android/sdk/platform-tools":$PATH

@@ -84,6 +84,8 @@ jobs:
           npm --version
           xcodebuild -version
 
+      # Apache Cordova 公式のテスト構成をそのまま使っている。
+      # 最新の cordova / paramedic で動作確認することが目的なので固定しない。
       - name: Run npm install  # zizmor: ignore[adhoc-packages]
         run: |
           npm i -g cordova@latest ios-deploy@latest
