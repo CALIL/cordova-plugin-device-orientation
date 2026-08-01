@@ -29,6 +29,9 @@ on:
       - '.eslint*'
       - '.github/workflow/lint.yml'
 
+permissions:
+  contents: read
+
 jobs:
   test:
     name: Lint Test

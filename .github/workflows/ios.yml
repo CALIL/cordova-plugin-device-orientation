@@ -29,6 +29,9 @@ on:
       - 'LICENSE'
       - '.eslint*'
 
+permissions:
+  contents: read
+
 jobs:
   test:
     name: iOS ${{ matrix.versions.ios-version }} Test
@@ -96,4 +99,4 @@ jobs:
           # Generally, this should automatically work for cordova-paramedic & plugins. If the path is unique, this can be manually changed.
           test_plugin_path: ${{ endswith(env.repo, '/cordova-paramedic') && './spec/testable-plugin/' || './' }}
           paramedic: ${{ endswith(env.repo, '/cordova-paramedic') && 'node main.js' || 'cordova-paramedic' }}
-        run: ${{ env.paramedic }} --config ./pr/local/${{ env.test_config }} --plugin ${{ env.test_plugin_path }}
+        run: $paramedic --config ./pr/local/$test_config --plugin $test_plugin_path
