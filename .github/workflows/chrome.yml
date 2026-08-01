@@ -60,12 +60,12 @@ jobs:
           node --version
           npm --version
 
-      - name: Run npm install
+      - name: Run npm install  # zizmor: ignore[adhoc-packages]
         run: |
           npm i -g cordova@latest
           npm ci
 
-      - name: Run paramedic install
+      - name: Run paramedic install  # zizmor: ignore[adhoc-packages]
         if: ${{ endswith(env.repo, '/cordova-paramedic')　!= true }}
         run: npm i -g github:apache/cordova-paramedic
 

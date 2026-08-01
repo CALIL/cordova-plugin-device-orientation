@@ -99,14 +99,14 @@ jobs:
           npm --version
           java -version
 
-      - name: Run npm install
+      - name: Run npm install  # zizmor: ignore[adhoc-packages]
         run: |
           export PATH="/usr/local/lib/android/sdk/platform-tools":$PATH
           export JAVA_HOME=$JAVA_HOME_11_X64
           npm i -g cordova@latest
           npm ci
 
-      - name: Run paramedic install
+      - name: Run paramedic install  # zizmor: ignore[adhoc-packages]
         if: ${{ endswith(env.repo, '/cordova-paramedic') != true }}
         run: npm i -g github:apache/cordova-paramedic
 
