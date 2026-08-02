@@ -59,22 +59,10 @@ jobs:
     # configurations for each testing strategy (test matrix)
     strategy:
       matrix:
+        # CI の実行時間を抑えるため1バージョンに絞っている。
+        # 上流は Android 12〜16 を回すが、このフォークで確認したいのは
+        # CompassListener.java の変更が壊れていないことなので最新版だけで足りる。
         versions:
-          - android: 12
-            android-api: 31
-
-          - android: 12L
-            android-api: 32
-
-          - android: 13
-            android-api: 33
-
-          - android: 14
-            android-api: 34
-
-          - android: 15
-            android-api: 35
-
           - android: 16
             android-api: 36
 

@@ -53,15 +53,10 @@ jobs:
 
     strategy:
       matrix:
+        # CI の実行時間を抑えるため1バージョンに絞っている。
+        # 上流は iOS 17〜26 を回すが、このフォークで確認したいのは
+        # CompassListener.java の変更が壊れていないことなので最新版だけで足りる。
         versions:
-          - os-version: macos-14
-            ios-version: 17.x
-            xcode-version: 15.x
-
-          - os-version: macos-15
-            ios-version: 18.x
-            xcode-version: 16.x
-
           - os-version: macos-26
             ios-version: 26.x
             xcode-version: 26.x
