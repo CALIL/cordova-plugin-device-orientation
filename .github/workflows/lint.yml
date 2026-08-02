@@ -18,7 +18,11 @@
 name: Lint Test
 
 on:
+  # push は master に限定している。限定しないと、ブランチへの push と
+  # その PR の両方でトリガーされ、同じチェックが二重に走る。
   push:
+    branches:
+      - master
     paths:
       - '**.js'
       - '.eslint*'
@@ -28,6 +32,11 @@ on:
       - '**.js'
       - '.eslint*'
       - '.github/workflow/lint.yml'
+
+# 同じブランチで新しい実行が始まったら、走っている古い実行は打ち切る。
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
