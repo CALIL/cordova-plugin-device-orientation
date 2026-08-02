@@ -6,28 +6,33 @@
 # "License"); you may not use this file except in compliance
 # with the License.  You may obtain a copy of the License at
 #
-# http://www.apache.org/licenses/LICENSE-2.0
+#   http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing,
 # software distributed under the License is distributed on an
 # "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-#  KIND, either express or implied.  See the License for the
+# KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
 
 name: Chrome Testsuite
 
+# 自動実行を外している。
+#
+# このテストは上流 apache/cordova-plugin-device-orientation でも継続して失敗しており
+# （2026-05-19 / 2026-07-27 とも failure、同時期の Android は success）、
+# このフォーク側では直せない。
+#
+#   Error: [paramedic] The device failed to connect to local server in 540 secs
+#
+# 常に赤い CI は本当の失敗を見落とす原因になるため、自動トリガーだけ外した。
+# browser プラットフォームの実装（src/browser/CompassProxy.js）は
+# Math.random() を返すダミーなので、このテストが守っているものは実質ない。
+#
+# 上流で直ったかどうかは Actions から手動で実行して確かめられる。
+# 直っていたら push / pull_request のトリガーを戻すこと。
 on:
-  push:
-    paths-ignore:
-      - '**.md'
-      - 'LICENSE'
-      - '.eslint*'
-  pull_request:
-    paths-ignore:
-      - '**.md'
-      - 'LICENSE'
-      - '.eslint*'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -42,13 +47,15 @@ jobs:
       # Storing a copy of the repo
       repo: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
 
-      node-version: 16
+      node-version: 24
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-node@v2
+          fetch-depth: 1
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: ${{ env.node-version }}
 
@@ -68,7 +75,7 @@ jobs:
           npm ci
 
       - name: Run paramedic install  # zizmor: ignore[adhoc-packages]
-        if: ${{ endswith(env.repo, '/cordova-paramedic')　!= true }}
+        if: ${{ endswith(env.repo, '/cordova-paramedic') != true }}
         run: npm i -g github:apache/cordova-paramedic
 
       - name: Run paramedic tests
