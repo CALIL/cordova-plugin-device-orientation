@@ -26,12 +26,18 @@ on:
     paths:
       - '**.js'
       - '.eslint*'
-      - '.github/workflow/lint.yml'
+      # eslint 本体やプラグインの版が変われば指摘も変わるので、依存の変更でも走らせる。
+      # lockfile だけを触る Dependabot の PR がここで検証されずに素通りしていた。
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/lint.yml'
   pull_request:
     paths:
       - '**.js'
       - '.eslint*'
-      - '.github/workflow/lint.yml'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/lint.yml'
 
 # 同じブランチで新しい実行が始まったら、走っている古い実行は打ち切る。
 concurrency:
